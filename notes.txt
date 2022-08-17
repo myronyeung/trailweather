@@ -1,0 +1,81 @@
+Trailweather:
+npx create-react-app my-app --template typescript
+npm install @mui/material @emotion/react @emotion/styled
+npm install --save-dev parcel
+
+
+Run app with Parcel:
+npx parcel src/index.tsx 
+Go to http://localhost:1234
+
+https://api.weather.gov/points/37.1147,-118.5448
+
+Waypoints inspired by https://www.pcta.org/wp-content/uploads/2012/10/JMTelevationprofile.jpg
+
+[
+	{
+		name: "Happy Isles",
+		long: -119.559051,
+		lat: 37.729926,
+	},
+	{
+		name: "Little Yosemite Valley",
+		long: -119.527660,
+		lat: 37.726315,
+	},
+	{
+		name: "Half Dome Trail",
+		long: -119.524212,
+		lat: 37.749581,
+	},
+	{
+		name: "Merced Lake Trail",
+		long: -119.412853,
+		lat: 37.738438,
+	},
+	{
+		name: "Sunrise High Sierra Camp",
+		long: -119.432552,
+		lat: 37.795018,
+	},
+	{
+		name: "Cathedral Pass",
+		long: -119.414880,
+		lat: 37.834647,
+	},
+	{
+		name: "Cathedral Lake",
+		long: -119.420925,
+		lat: 37.843523,
+	},
+	{
+		name: "Tuolumne Meadows Trail",
+		long: -119.377024,
+		lat: 37.877588,
+	},
+	{
+		name: "Tuolumne Meadows Ranger Station",
+		long: -119.359109,
+		lat: 37.873132,
+	},
+	{
+		name: "Rafferty Creek Trail",
+		long: -119.338504,
+		lat: 37.877511,
+	},
+	{
+		name: "Vogelsang Pass Trail",
+		long: -119.340708,
+		lat: 37.779650,
+	},
+	{
+		name: "Lyell Fork Bridge",
+		long: -119.326940,
+		lat: 37.869253,
+	},
+	{
+		name: "Donohue Pass",
+		long: -119.248480,
+		lat: 37.760208,
+	},
+]

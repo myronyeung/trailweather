@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  display: flex;
+}
+
+.list-waypoints {
+  border: 1px solid black;
+  width: 20%;
+  height: 200px;
+}
+
+p.error {
+  font-weight: bold;
+  color: red;
+}
