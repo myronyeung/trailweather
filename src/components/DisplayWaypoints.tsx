@@ -1,4 +1,11 @@
 import React, { useEffect, useState } from "react";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import Waypoints from "../data/Waypoints";
 import getDateFromString from "../utils/Dates";
@@ -126,14 +133,15 @@ const DisplayWaypoints: React.FunctionComponent<{}> = () => {
 
   return (
     <div>
-      <h2>weatherData length = {weatherData.length}</h2>
+      <h2>Weather Reports</h2>
       {weatherData ? (
         weatherData.map((obj, index) => {
           return (
             <ul key={index}>
               <li key={index} style={{ marginBottom: "50px" }}>
                 <div>
-                  {obj.location} <a href={obj.pointsURL}>{obj.pointsURL}</a>
+                  <h3 id={obj.location}>{obj.location}</h3>
+                  <a href={obj.pointsURL}>{obj.pointsURL}</a>
                   <br />
                   {`${obj.lat}, ${obj.long}`}
                   <br />
@@ -171,7 +179,11 @@ const DisplayWaypoints: React.FunctionComponent<{}> = () => {
                                   {period.name}
                                   ): {period.temperature}
                                   {period.temperatureUnit},{" "}
-                                  {period.shortForecast}
+                                  {period.shortForecast}{" "}
+                                  <img
+                                    src={period.icon}
+                                    alt={period.shortForecast}
+                                  />
                                 </p>
                               </li>
                             );
@@ -210,21 +222,44 @@ const DisplayWaypoints: React.FunctionComponent<{}> = () => {
                         </div>
                       )}
                       {obj.hourlyForecast.periods && (
-                        <ul>
-                          {obj.hourlyForecast?.periods?.map((period, index) => {
-                            return (
-                              <li key={index}>
-                                <p>
-                                  {getDateFromString(period.startTime)} (
-                                  {period.name}
-                                  ): {period.temperature}
-                                  {period.temperatureUnit},{" "}
-                                  {period.shortForecast}
-                                </p>
-                              </li>
-                            );
-                          })}
-                        </ul>
+                        <div>
+                          <Accordion>
+                            <AccordionSummary
+                              expandIcon={<ExpandMoreIcon />}
+                              aria-controls="panel1a-content"
+                              id="panel1a-header"
+                            >
+                              <Typography>Hourly forecast</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                              <Typography>
+                                <ul>
+                                  {obj.hourlyForecast?.periods?.map(
+                                    (period, index) => {
+                                      return (
+                                        <li key={index}>
+                                          <p>
+                                            {getDateFromString(
+                                              period.startTime
+                                            )}{" "}
+                                            {period.name && `(${period.name}) `}
+                                            {period.temperature}
+                                            {period.temperatureUnit},{" "}
+                                            {period.shortForecast}{" "}
+                                            <img
+                                              src={period.icon}
+                                              alt={period.shortForecast}
+                                            />
+                                          </p>
+                                        </li>
+                                      );
+                                    }
+                                  )}
+                                </ul>
+                              </Typography>
+                            </AccordionDetails>
+                          </Accordion>
+                        </div>
                       )}
                     </div>
                   ) : (
@@ -242,6 +277,8 @@ const DisplayWaypoints: React.FunctionComponent<{}> = () => {
           Unable to get data from National Weather Service
         </p>
       )}
+      <h2>Debug</h2>
+      <p>weatherData length = {weatherData.length}</p>
     </div>
   );
 };

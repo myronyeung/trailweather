@@ -1,10 +1,10 @@
 import React from "react";
 
-import AppBar from "@mui/material/AppBar";
+import { AppBar } from "@mui/material";
 
 const TopNav: React.FunctionComponent<{}> = () => {
   return (
-    <AppBar position="fixed">
+    <AppBar>
       <h1>TrailWeather</h1>
     </AppBar>
   );

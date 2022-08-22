@@ -15,7 +15,9 @@ const ListWaypoints: React.FunctionComponent<{}> = () => {
           {Waypoints.map((waypoint, index) => {
             return (
               <tr key={index}>
-                <td>{waypoint.name}</td>
+                <td>
+                  <a href={`#${waypoint.name}`}>{waypoint.name}</a>
+                </td>
               </tr>
             );
           })}
