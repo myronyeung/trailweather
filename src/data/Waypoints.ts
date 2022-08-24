@@ -1,6 +1,12 @@
 // Waypoints inspired by https://www.pcta.org/wp-content/uploads/2012/10/JMTelevationprofile.jpg
+// Waypoint coordinates found with https://www.gps-latitude-longitude.com/
 
 const Waypoints = [
+  {
+    name: "Twin Lakes, Desolation Wilderness",
+    rawLat: 38.873027,
+    rawLong: -120.192626,
+  },
   {
     name: "Happy Isles",
     rawLat: 37.729926,

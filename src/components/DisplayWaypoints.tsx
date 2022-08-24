@@ -51,6 +51,8 @@ export type Waypoint = {
     };
     periods?: Period[];
   };
+  nearestCity: string;
+  state: string;
 };
 
 const DisplayWaypoints: React.FunctionComponent<{}> = () => {
@@ -86,6 +88,8 @@ const DisplayWaypoints: React.FunctionComponent<{}> = () => {
               pointsURL: data.id,
               forecastURL: data.properties.forecast,
               hourlyForecastURL: data.properties.forecastHourly,
+              nearestCity: data.properties.relativeLocation.properties.city,
+              state: data.properties.relativeLocation.properties.state,
             };
 
             // Fetch forecasts too
@@ -143,7 +147,9 @@ const DisplayWaypoints: React.FunctionComponent<{}> = () => {
                   <h3 id={obj.location}>{obj.location}</h3>
                   <a href={obj.pointsURL}>{obj.pointsURL}</a>
                   <br />
-                  {`${obj.lat}, ${obj.long}`}
+                  {`Nearest city: ${obj.nearestCity}, ${obj.state}`}
+                  <br />
+                  {`Coordinates: ${obj.lat}, ${obj.long}`}
                   <br />
                   <a href={obj.forecastURL}>{obj.forecastURL}</a>
                   <br />
