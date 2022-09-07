@@ -1,151 +1,147 @@
-import React, { useEffect, useState } from "react";
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import React, { useEffect, useState } from 'react';
+import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import Waypoints from "../data/Waypoints";
-import Locations from "../data/Locations";
+import Waypoints from '../data/Waypoints';
+import Locations from '../data/Locations';
 
-import getDateFromString from "../utils/Dates";
-import { useWeatherData } from "../hooks/useWeatherData";
+import getDateFromString from '../utils/Dates';
 
 export type Period = {
-  number: number;
-  name: string;
-  startTime: string;
-  endTime: string;
-  isDaytime: boolean;
-  temperature: number;
-  temperatureUnit: string;
-  temperatureTrend: string;
-  windSpeed: string;
-  windDirection: string;
-  icon: string;
-  shortForecast: string;
-  detailedForecast: string;
+	number: number;
+	name: string;
+	startTime: string;
+	endTime: string;
+	isDaytime: boolean;
+	temperature: number;
+	temperatureUnit: string;
+	temperatureTrend: string;
+	windSpeed: string;
+	windDirection: string;
+	icon: string;
+	shortForecast: string;
+	detailedForecast: string;
 };
 
-export type UnitCode = "wmoUnit:m";
+export type UnitCode = 'wmoUnit:m';
 
 export type Waypoint = {
-  location: string;
-  lat: number;
-  long: number;
-  pointsURL: string;
-  forecastURL: string;
-  forecast?: {
-    updated: string;
-    elevation: {
-      unitCode: UnitCode;
-      value: number;
-    };
-    periods?: Period[];
-  };
-  hourlyForecastURL: string;
-  hourlyForecast?: {
-    updated: string;
-    elevation: {
-      unitCode: UnitCode;
-      value: number;
-    };
-    periods?: Period[];
-  };
-  nearestCity: string;
-  state: string;
+	location: string;
+	lat: number;
+	long: number;
+	pointsURL: string;
+	forecastURL: string;
+	forecast?: {
+		updated: string;
+		elevation: {
+			unitCode: UnitCode;
+			value: number;
+		};
+		periods?: Period[];
+	};
+	hourlyForecastURL: string;
+	hourlyForecast?: {
+		updated: string;
+		elevation: {
+			unitCode: UnitCode;
+			value: number;
+		};
+		periods?: Period[];
+	};
+	nearestCity: string;
+	state: string;
 };
 
-const DisplayWaypoints: React.FunctionComponent<{}> = () => {
-  const [weatherData, setWeatherData] = useState<Waypoint[]>([]);
+const DisplayWaypoints: React.FunctionComponent<{}> = ({}) => {
+	const [weatherData, setWeatherData] = useState<Waypoint[]>([]);
 
-  useEffect(() => {
-    // getInfo();
-    //// console.dir(weatherData);
-  }, []);
+	useEffect(() => {
+		// getInfo();
+		//// console.dir(weatherData);
+	}, []);
 
-  useEffect(() => {
-    //// console.dir(weatherData);
-  }, [weatherData]);
+	useEffect(() => {
+		//// console.dir(weatherData);
+	}, [weatherData]);
 
-  const getInfo = async (): Promise<void> => {
-    Waypoints.forEach((waypoint) => {
-      fetch(
-        `https://api.weather.gov/points/${waypoint.rawLat},${waypoint.rawLong}`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          if (
-            !weatherData.find((elem) => {
-              return elem.pointsURL === data.id;
-            })
-          ) {
-            ////console.log(data);
+	const getInfo = async (): Promise<void> => {
+		Waypoints.forEach((waypoint) => {
+			fetch(`https://api.weather.gov/points/${waypoint.rawLat},${waypoint.rawLong}`)
+				.then((response) => response.json())
+				.then((data) => {
+					if (
+						!weatherData.find((elem) => {
+							return elem.pointsURL === data.id;
+						})
+					) {
+						////console.log(data);
 
-            const firstLevelData: Waypoint = {
-              location: waypoint.name,
-              lat: data.geometry.coordinates[1],
-              long: data.geometry.coordinates[0],
-              pointsURL: data.id,
-              forecastURL: data.properties.forecast,
-              hourlyForecastURL: data.properties.forecastHourly,
-              nearestCity: data.properties.relativeLocation.properties.city,
-              state: data.properties.relativeLocation.properties.state,
-            };
+						const firstLevelData: Waypoint = {
+							location: waypoint.name,
+							lat: data.geometry.coordinates[1],
+							long: data.geometry.coordinates[0],
+							pointsURL: data.id,
+							forecastURL: data.properties.forecast,
+							hourlyForecastURL: data.properties.forecastHourly,
+							nearestCity: data.properties.relativeLocation.properties.city,
+							state: data.properties.relativeLocation.properties.state,
+						};
 
-            // Fetch forecasts too
-            fetch(data.properties.forecast)
-              .then((response) => response.json())
-              .then((data) => {
-                firstLevelData.forecast = {
-                  updated: data.properties.updated,
-                  elevation: data.properties.elevation,
-                  periods: data.properties.periods,
-                };
-              })
-              .catch((error) => {
-                ////console.log(error); // eslint-disable-line no-console
-              });
+						// Fetch forecasts too
+						fetch(data.properties.forecast)
+							.then((response) => response.json())
+							.then((data) => {
+								firstLevelData.forecast = {
+									updated: data.properties.updated,
+									elevation: data.properties.elevation,
+									periods: data.properties.periods,
+								};
+							})
+							.catch((error) => {
+								////console.log(error); // eslint-disable-line no-console
+							});
 
-            // Fetch hourly forecasts too
-            fetch(data.properties.forecastHourly)
-              .then((response) => response.json())
-              .then((data) => {
-                firstLevelData.hourlyForecast = {
-                  updated: data.properties.updated,
-                  elevation: data.properties.elevation,
-                  periods: data.properties.periods,
-                };
-              })
-              .catch((error) => {
-                ////console.log(error); // eslint-disable-line no-console
-              })
-              .finally(() => {
-                setWeatherData((weatherData) => [
-                  ...weatherData,
-                  {
-                    ...firstLevelData,
-                  },
-                ]);
-              });
-          }
-        })
-        .catch((error) => {
-          ////console.log(error); // eslint-disable-line no-console
-        });
-    });
-  };
-  const getWeatherData = useWeatherData({
-    "Twin Lakes": Locations["Twin Lakes"],
-  });
+						// Fetch hourly forecasts too
+						fetch(data.properties.forecastHourly)
+							.then((response) => response.json())
+							.then((data) => {
+								firstLevelData.hourlyForecast = {
+									updated: data.properties.updated,
+									elevation: data.properties.elevation,
+									periods: data.properties.periods,
+								};
+							})
+							.catch((error) => {
+								////console.log(error); // eslint-disable-line no-console
+							})
+							.finally(() => {
+								setWeatherData((weatherData) => [
+									...weatherData,
+									{
+										...firstLevelData,
+									},
+								]);
+							});
+					}
+				})
+				.catch((error) => {
+					////console.log(error); // eslint-disable-line no-console
+				});
+		});
+	};
+	const getWeatherData = weather({
+		'Twin Lakes': Locations['Twin Lakes'],
+	});
+	const getWeatherData2 = weather({
+		'Happy Isles': Locations['Happy Isles'],
+	});
 
-  return (
-    <div>
-      <h2>Refactored code</h2>
-      {getWeatherData.location}
-      {/*
+	return (
+		<div>
+			<h2>Refactored code</h2>
+			{getWeatherData?.location}
+			{getWeatherData2?.location}
+			{/*
       <h2>Weather Reports</h2>
       {weatherData ? (
         weatherData.map((obj, index) => {
@@ -295,10 +291,10 @@ const DisplayWaypoints: React.FunctionComponent<{}> = () => {
       <h2>Debug</h2>
       <p>weatherData length = {weatherData.length}</p>
       */}
-    </div>
-  );
+		</div>
+	);
 };
 
-DisplayWaypoints.displayName = "DisplayWaypoints";
+DisplayWaypoints.displayName = 'DisplayWaypoints';
 
 export default DisplayWaypoints;
