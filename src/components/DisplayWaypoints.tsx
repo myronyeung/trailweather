@@ -2,14 +2,14 @@ import React from 'react';
 import { Typography } from '@mui/material';
 
 import Waypoints from '../data/Waypoints';
-import WaypointWeather from './WaypointWeather';
+import WaypointWeatherNWS from './WaypointWeatherNWS';
 
 const DisplayWaypoints: React.FunctionComponent<{}> = () => {
     return (
         <div className="list-weather">
             {Waypoints.map((waypoint) => {
                 return (
-                    <WaypointWeather
+                    <WaypointWeatherNWS
                         name={waypoint.name}
                         lat={waypoint.rawLat}
                         long={waypoint.rawLong}

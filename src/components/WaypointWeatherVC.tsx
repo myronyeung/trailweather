@@ -89,7 +89,7 @@ export type ForecastData = {
     };
 };
 
-export type IWaypointWeatherProps = {
+export type IWaypointWeatherPropsVC = {
     name: string;
     lat: number;
     long: number;
@@ -97,7 +97,11 @@ export type IWaypointWeatherProps = {
 
 const spinner = 'Data loading...';
 
-const WaypointWeather: React.FunctionComponent<IWaypointWeatherProps> = ({ name, lat, long }) => {
+const WaypointWeatherVC: React.FunctionComponent<IWaypointWeatherPropsVC> = ({
+    name,
+    lat,
+    long,
+}) => {
     const [weatherData, setWeatherData] = useState<WaypointData>();
 
     useEffect(() => {
@@ -235,6 +239,6 @@ const WaypointWeather: React.FunctionComponent<IWaypointWeatherProps> = ({ name,
     );
 };
 
-WaypointWeather.displayName = 'WaypointWeather';
+WaypointWeatherVC.displayName = 'WaypointWeatherVC';
 
-export default WaypointWeather;
+export default WaypointWeatherVC;
