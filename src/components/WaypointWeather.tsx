@@ -97,6 +97,19 @@ export type IWaypointWeatherProps = {
 
 const spinner = 'Data loading...';
 
+const fetchForecastData = async (data: WaypointData) => {
+    const response = await fetch(data.properties.forecast);
+    const json = await response.json();
+    data.forecast = json;
+    return fetchHourlyForecastData(data);
+};
+
+const fetchHourlyForecastData = async (data: WaypointData) => {
+    const response = await fetch(data.properties.forecastHourly);
+    const json = await response.json();
+    data.hourlyForecast = json;
+};
+
 const WaypointWeather: React.FunctionComponent<IWaypointWeatherProps> = ({ name, lat, long }) => {
     const [weatherData, setWeatherData] = useState<WaypointData>();
 
@@ -105,28 +118,9 @@ const WaypointWeather: React.FunctionComponent<IWaypointWeatherProps> = ({ name,
 
         fetch(`https://api.weather.gov/points/${lat},${long}`)
             .then((response) => response.json())
-            .then((data) => {
-                pointData = data;
-
-                // Fetch forecasts too
-                return fetch(pointData.properties.forecast)
-                    .then((response) => response.json())
-                    .then((forecastData) => {
-                        pointData.forecast = forecastData;
-
-                        // Fetch hourly forecasts too
-                        return fetch(pointData.properties.forecastHourly)
-                            .then((response) => response.json())
-                            .then((hourlyForecastData) => {
-                                pointData.hourlyForecast = hourlyForecastData;
-                            })
-                            .catch((error) => {
-                                console.log(error); // eslint-disable-line no-console
-                            });
-                    })
-                    .catch((error) => {
-                        console.log(error); // eslint-disable-line no-console
-                    });
+            .then((json) => {
+                pointData = json;
+                return fetchForecastData(pointData);
             })
             .finally(() => {
                 setWeatherData(pointData);
@@ -197,34 +191,30 @@ const WaypointWeather: React.FunctionComponent<IWaypointWeatherProps> = ({ name,
                             <Typography>Hourly forecast</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Typography>
-                                <table className="weather">
-                                    <tbody>
-                                        {weatherData?.hourlyForecast?.properties?.periods?.map(
-                                            (period, index) => {
-                                                return (
-                                                    <tr key={index}>
-                                                        <td>
-                                                            {getDateFromString(period.startTime)}
-                                                        </td>
-                                                        <td>
-                                                            <img
-                                                                src={period.icon}
-                                                                alt={`Forecast for ${name}`}
-                                                            />
-                                                        </td>
-                                                        <td>
-                                                            {period.temperature}
-                                                            {period.temperatureUnit}
-                                                        </td>
-                                                        <td>{period.shortForecast}</td>
-                                                    </tr>
-                                                );
-                                            },
-                                        )}
-                                    </tbody>
-                                </table>
-                            </Typography>
+                            <table className="weather">
+                                <tbody>
+                                    {weatherData?.hourlyForecast?.properties?.periods?.map(
+                                        (period, index) => {
+                                            return (
+                                                <tr key={index}>
+                                                    <td>{getDateFromString(period.startTime)}</td>
+                                                    <td>
+                                                        <img
+                                                            src={period.icon}
+                                                            alt={`Forecast for ${name}`}
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        {period.temperature}
+                                                        {period.temperatureUnit}
+                                                    </td>
+                                                    <td>{period.shortForecast}</td>
+                                                </tr>
+                                            );
+                                        },
+                                    )}
+                                </tbody>
+                            </table>
                         </AccordionDetails>
                     </Accordion>
                 </div>
