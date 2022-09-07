@@ -3,7 +3,7 @@
 
 const Waypoints = [
     {
-        name: 'Twin Lakes, Desolation Wilderness',
+        name: 'Twin Lakes',
         rawLat: 38.873027,
         rawLong: -120.192626,
     },
