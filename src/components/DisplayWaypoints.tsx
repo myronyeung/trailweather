@@ -8,7 +8,10 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import Waypoints from "../data/Waypoints";
+import Locations from "../data/Locations";
+
 import getDateFromString from "../utils/Dates";
+import { useWeatherData } from "../hooks/useWeatherData";
 
 export type Period = {
   number: number;
@@ -59,12 +62,12 @@ const DisplayWaypoints: React.FunctionComponent<{}> = () => {
   const [weatherData, setWeatherData] = useState<Waypoint[]>([]);
 
   useEffect(() => {
-    getInfo();
-    console.dir(weatherData);
+    // getInfo();
+    //// console.dir(weatherData);
   }, []);
 
   useEffect(() => {
-    console.dir(weatherData);
+    //// console.dir(weatherData);
   }, [weatherData]);
 
   const getInfo = async (): Promise<void> => {
@@ -79,7 +82,7 @@ const DisplayWaypoints: React.FunctionComponent<{}> = () => {
               return elem.pointsURL === data.id;
             })
           ) {
-            console.log(data);
+            ////console.log(data);
 
             const firstLevelData: Waypoint = {
               location: waypoint.name,
@@ -103,7 +106,7 @@ const DisplayWaypoints: React.FunctionComponent<{}> = () => {
                 };
               })
               .catch((error) => {
-                console.log(error); // eslint-disable-line no-console
+                ////console.log(error); // eslint-disable-line no-console
               });
 
             // Fetch hourly forecasts too
@@ -117,7 +120,7 @@ const DisplayWaypoints: React.FunctionComponent<{}> = () => {
                 };
               })
               .catch((error) => {
-                console.log(error); // eslint-disable-line no-console
+                ////console.log(error); // eslint-disable-line no-console
               })
               .finally(() => {
                 setWeatherData((weatherData) => [
@@ -130,13 +133,19 @@ const DisplayWaypoints: React.FunctionComponent<{}> = () => {
           }
         })
         .catch((error) => {
-          console.log(error); // eslint-disable-line no-console
+          ////console.log(error); // eslint-disable-line no-console
         });
     });
   };
+  const getWeatherData = useWeatherData({
+    "Twin Lakes": Locations["Twin Lakes"],
+  });
 
   return (
     <div>
+      <h2>Refactored code</h2>
+      {getWeatherData.location}
+      {/*
       <h2>Weather Reports</h2>
       {weatherData ? (
         weatherData.map((obj, index) => {
@@ -285,6 +294,7 @@ const DisplayWaypoints: React.FunctionComponent<{}> = () => {
       )}
       <h2>Debug</h2>
       <p>weatherData length = {weatherData.length}</p>
+      */}
     </div>
   );
 };

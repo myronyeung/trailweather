@@ -1,12 +1,7 @@
 Trailweather:
 npx create-react-app my-app --template typescript
 npm install @mui/material @emotion/react @emotion/styled
-npm install --save-dev parcel
 
-
-Run app with Parcel:
-npx parcel src/index.tsx 
-Go to http://localhost:1234
 
 https://api.weather.gov/points/37.1147,-118.5448
 
