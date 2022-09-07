@@ -101,7 +101,6 @@ const fetchForecastData = async (data: WaypointData) => {
     const response = await fetch(data.properties.forecast);
     const json = await response.json();
     data.forecast = json;
-    return fetchHourlyForecastData(data);
 };
 
 const fetchHourlyForecastData = async (data: WaypointData) => {
@@ -120,7 +119,10 @@ const WaypointWeather: React.FunctionComponent<IWaypointWeatherProps> = ({ name,
             .then((response) => response.json())
             .then((json) => {
                 pointData = json;
-                return fetchForecastData(pointData);
+                return Promise.all([
+                    fetchForecastData(pointData),
+                    fetchHourlyForecastData(pointData),
+                ]);
             })
             .finally(() => {
                 setWeatherData(pointData);
@@ -128,7 +130,7 @@ const WaypointWeather: React.FunctionComponent<IWaypointWeatherProps> = ({ name,
             .catch((error) => {
                 console.log(error); // eslint-disable-line no-console
             });
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div id={name.replace(/\s+/g, '')} className="weather-section">
