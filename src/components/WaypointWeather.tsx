@@ -137,8 +137,8 @@ const WaypointWeather: React.FunctionComponent<IWaypointWeatherProps> = ({ name,
     }, []);
 
     return (
-        <div>
-            <h3>{name}</h3>
+        <div id={name.replace(/\s+/g, '')} className="weather-section">
+            <h3 className="waypointData">{name}</h3>
             <p>Coordinates: {`(${lat}, ${long})`}</p>
             <p>
                 Elevation:{' '}
@@ -156,7 +156,7 @@ const WaypointWeather: React.FunctionComponent<IWaypointWeatherProps> = ({ name,
                         >{`${weatherData?.properties?.forecast}`}</a>
                     </p>
 
-                    <table className="hourly-weather">
+                    <table className="weather">
                         <tbody>
                             {weatherData?.forecast?.properties?.periods?.map((period, index) => {
                                 return (
@@ -179,17 +179,58 @@ const WaypointWeather: React.FunctionComponent<IWaypointWeatherProps> = ({ name,
             ) : (
                 <p>{spinner}</p>
             )}
-            <h4>Hourly forecast: {weatherData?.hourlyForecast?.properties?.forecastGenerator}</h4>
+            <h4>Hourly forecast:</h4>
             {weatherData ? (
-                <p>
-                    <a
-                        href={`${weatherData?.properties?.forecastHourly}`}
-                    >{`${weatherData?.properties?.forecastHourly}`}</a>
-                </p>
+                <div>
+                    <p>
+                        <a
+                            href={`${weatherData?.properties?.forecastHourly}`}
+                        >{`${weatherData?.properties?.forecastHourly}`}</a>
+                    </p>
+
+                    <Accordion>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        >
+                            <Typography>Hourly forecast</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Typography>
+                                <table className="weather">
+                                    <tbody>
+                                        {weatherData?.hourlyForecast?.properties?.periods?.map(
+                                            (period, index) => {
+                                                return (
+                                                    <tr key={index}>
+                                                        <td>
+                                                            {getDateFromString(period.startTime)}
+                                                        </td>
+                                                        <td>
+                                                            <img
+                                                                src={period.icon}
+                                                                alt={`Forecast for ${name}`}
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            {period.temperature}
+                                                            {period.temperatureUnit}
+                                                        </td>
+                                                        <td>{period.shortForecast}</td>
+                                                    </tr>
+                                                );
+                                            },
+                                        )}
+                                    </tbody>
+                                </table>
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
+                </div>
             ) : (
                 <p>{spinner}</p>
             )}
-            <hr />
         </div>
     );
 };

@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 
-import { AppBar } from "@mui/material";
+import { AppBar } from '@mui/material';
 
 const TopNav: React.FunctionComponent<{}> = () => {
-  return (
-    <AppBar>
-      <h1>TrailWeather</h1>
-    </AppBar>
-  );
+    return (
+        <div className="header">
+            <h1>TrailWeather</h1>
+        </div>
+    );
 };
 
-TopNav.displayName = "TopNav";
+TopNav.displayName = 'TopNav';
 
 export default TopNav;

@@ -26,15 +26,28 @@ h2 {
     }
 }
 
+.header {
+    border: 1px solid black;
+    text-align: center;
+    background-color: #9dd9f3;
+}
 .container {
     display: flex;
-    margin-top: 100px;
+    margin-top: 10px;
 }
 
 .list-waypoints {
+    margin: 20px;
     border: 1px solid black;
+    padding: 20px;
     width: 20%;
     height: 200px;
+}
+
+.list-weather {
+    border: 1px solid black;
+    margin: 20px;
+    padding: 20px;
 }
 
 p.error {
@@ -47,13 +60,29 @@ p.error {
     width: 30%;
 }
 
-.hourly-weather {
+.list-waypoints th {
+    margin-top: 0;
+}
+
+.weather-section {
+    margin-bottom: 50px;
+}
+
+.weather {
     border: 1px solid black;
     border-collapse: collapse;
     width: 70%;
 }
 
-.hourly-weather td {
+.weather td {
     border: 1px solid black;
     padding: 2px;
+}
+
+h3.waypoint {
+    margin-top: -3px;
+}
+
+h3.waypointData {
+    margin-top: 0;
 }

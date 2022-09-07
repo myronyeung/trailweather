@@ -6,7 +6,7 @@ import WaypointWeather from './WaypointWeather';
 
 const DisplayWaypoints: React.FunctionComponent<{}> = () => {
     return (
-        <div>
+        <div className="list-weather">
             {Waypoints.map((waypoint) => {
                 return (
                     <WaypointWeather
@@ -17,12 +17,6 @@ const DisplayWaypoints: React.FunctionComponent<{}> = () => {
                     />
                 );
             })}
-            <WaypointWeather
-                name={Waypoints[0].name}
-                lat={Waypoints[0].rawLat}
-                long={Waypoints[0].rawLong}
-                key={Waypoints[0].rawLat + Waypoints[0].rawLong}
-            />
         </div>
     );
 };
