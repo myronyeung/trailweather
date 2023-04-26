@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/trailweather/static/css/main.caa426bb.css",
+    "main.js": "/trailweather/static/js/main.3152cd8f.js",
+    "static/js/787.af5c5832.chunk.js": "/trailweather/static/js/787.af5c5832.chunk.js",
+    "index.html": "/trailweather/index.html",
+    "main.caa426bb.css.map": "/trailweather/static/css/main.caa426bb.css.map",
+    "main.3152cd8f.js.map": "/trailweather/static/js/main.3152cd8f.js.map",
+    "787.af5c5832.chunk.js.map": "/trailweather/static/js/787.af5c5832.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.caa426bb.css",
+    "static/js/main.3152cd8f.js"
+  ]
+}
