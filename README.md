@@ -1,4 +1,4 @@
-# Trailweather Online
+# TrailWeather Online
 
 [https://myronyeung.github.io/trailweather/](https://myronyeung.github.io/trailweather/)
 
