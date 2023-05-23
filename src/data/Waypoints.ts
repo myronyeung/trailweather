@@ -3,9 +3,19 @@
 
 const Waypoints = [
     {
+        name: 'Steens Mountain',
+        rawLat: 42.68,
+        rawLong: -118.55
+    },
+    {
         name: 'Twin Lakes',
         rawLat: 38.873027,
         rawLong: -120.192626,
+    },
+    {
+        name: 'Mission Peak',
+        rawLat: 37.51,
+        rawLong: -121.88,
     },
     {
         name: 'Happy Isles',
